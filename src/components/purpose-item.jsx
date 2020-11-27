@@ -81,52 +81,8 @@ export default class PurposeItem extends React.Component {
 
         return (
             <React.Fragment>
-                <input
-                    id={id}
-                    className={
-                        'cm-list-input' +
-                        (required ? ' required' : '') +
-                        (!allEnabled
-                            ? onlyRequiredEnabled
-                                ? ' only-required'
-                                : ' half-checked'
-                            : '')
-                    }
-                    aria-describedby={`${id}-description`}
-                    disabled={required}
-                    checked={
-                        allEnabled || (!allDisabled && !onlyRequiredEnabled)
-                    }
-                    type="checkbox"
-                    onChange={onChange}
-                />
-                <label
-                    htmlFor={id}
-                    className="cm-list-label"
-                    {...(required ? { tabIndex: '0' } : {})}
-                >
-                    <span className="cm-list-title">
-                        {title || t(['!', 'purposes', name, 'title?']) || asTitle(name)}
-                    </span>
-                    {requiredText}
-                    <span className="cm-switch">
-                        <div className="slider round active"></div>
-                    </span>
-                </label>
-                <div id={`${id}-description`}>
-                    {
-                        descriptionText &&
-                        <p className="cm-list-description">
-                            <Text
-                                config={config}
-                                text={descriptionText}
-                            />
-                        </p>
-                    }
-                    {purposesContent}
-                </div>
                 {services.length > 0 && (
-                    <div className="cm-services">
+                    <div class="cm-purpose-inner">
                         <div className="cm-caret">
                             <a href="#" onClick={toggleServicesVisible}>
                                 {(servicesVisible && <span>&#8593;</span>) || (
@@ -139,15 +95,67 @@ export default class PurposeItem extends React.Component {
                                 ])}
                             </a>
                         </div>
-                        <ul
-                            className={
-                                'cm-content' + (servicesVisible ? ' expanded' : '')
+                        <div>
+                            <input
+                                id={id}
+                                className={
+                                    'cm-list-input' +
+                                    (required ? ' required' : '') +
+                                    (!allEnabled
+                                        ? onlyRequiredEnabled
+                                            ? ' only-required'
+                                            : ' half-checked'
+                                        : '')
+                                }
+                                aria-describedby={`${id}-description`}
+                                disabled={required}
+                                checked={
+                                    allEnabled || (!allDisabled && !onlyRequiredEnabled)
+                                }
+                                type="checkbox"
+                                onChange={onChange}
+                            />
+                            <label
+                                htmlFor={id}
+                                className="cm-list-label"
+                                {...(required ? { tabIndex: '0' } : {})}
+                            >
+                                <span className="cm-list-title">
+                                    {title || t(['!', 'purposes', name, 'title?']) || asTitle(name)}
+                                </span>
+                                {requiredText}
+                                <span className="cm-switch">
+                                    <div className="slider round active"></div>
+                                </span>
+                            </label>
+                            <div id={`${id}-description`}>
+                            {
+                                descriptionText &&
+                                <p className="cm-list-description">
+                                    <Text
+                                        config={config}
+                                        text={descriptionText}
+                                    />
+                                </p>
                             }
-                        >
-                            {serviceItems}
-                        </ul>
+                                {purposesContent}
+                            </div>     
+                        </div>                                  
+                        
+                        <div className="cm-services">
+                            
+                            <ul
+                                className={
+                                    'cm-content' + (servicesVisible ? ' expanded' : '')
+                                }
+                            >
+                                {serviceItems}
+                            </ul>
+                        </div>
                     </div>
                 )}
+                
+                
             </React.Fragment>
         );
     }
