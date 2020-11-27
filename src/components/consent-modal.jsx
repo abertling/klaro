@@ -97,7 +97,7 @@ export default class ConsentModal extends React.Component {
                     type="button"
                     onClick={acceptAndHide}
                 >
-                    {t(['acceptAll'])}
+                    {t([servicesBoxExpanded ? 'acceptAll' : "confirm"])}
                 </button>
             );
         }

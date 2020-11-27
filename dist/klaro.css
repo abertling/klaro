@@ -133,7 +133,8 @@ We declare all variables here as default so that they are easy to override...
 .klaro .cookie-notice .cm-list-description {
   font-size: 14px;
   padding-top: 4px;
-  color: #666;
+  color: #eee;
+  color: var(--font-color-dark, #eee);
 }
 
 .klaro .cookie-modal .cm-list-label,
@@ -286,14 +287,13 @@ We declare all variables here as default so that they are easy to override...
 .klaro .cookie-modal .cm-btn,
 .klaro .context-notice .cm-btn,
 .klaro .cookie-notice .cm-btn {
-  color: #eee;
-  color: var(--font-color-dark, #eee);
+  color: #333;
+  color: var(--button-color-dark, #333);
   background: #555;
   border-radius: 6px;
   padding: 6px 10px;
   margin-right: 0.5em;
   border: 0;
-  padding: 0.4em;
   font-size: 1em;
   cursor: pointer;
 }
@@ -825,7 +825,8 @@ We declare all variables here as default so that they are easy to override...
 .klaro-ide .cm-list-description {
   font-size: 14px;
   padding-top: 4px;
-  color: #666;
+  color: #eee;
+  color: var(--font-color-dark, #eee);
 }
 
 .klaro-ide .cm-list-label {
