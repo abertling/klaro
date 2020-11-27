@@ -9,6 +9,9 @@ export default class ConsentModal extends React.Component {
         super(props);
         const { manager } = props;
         manager.restoreSavedConsents();
+        this.state = {
+            servicesBoxExpanded: manager.confirmed,
+        };
     }
 
     render() {
@@ -24,6 +27,7 @@ export default class ConsentModal extends React.Component {
             t,
         } = this.props;
         const { embedded } = config;
+        const { servicesBoxExpanded } = this.state;
         const groupByPurpose =
             config.groupByPurpose !== undefined ? config.groupByPurpose : true;
 
@@ -54,18 +58,38 @@ export default class ConsentModal extends React.Component {
                     {t(['decline'])}
                 </button>
             );
+
+        const expandServicesBox = () => {
+            this.setState({servicesBoxExpanded: true});
+        }
+        
+        let expandServicesBoxButton, acceptButton;
+        if(servicesBoxExpanded) {
+            acceptButton = (
+                <button
+                    disabled={confirming}
+                    className="cm-btn cm-btn-success cm-btn-info cm-btn-accept"
+                    type="button"
+                    onClick={saveAndHide}
+                >
+                    {t([manager.confirmed ? 'save' : 'acceptSelected'])}
+                </button>
+            );
+        } else {
+            expandServicesBoxButton = (
+                <button
+                    disabled={confirming}
+                    className="cm-btn cm-btn-success cm-btn-info cm-btn-accept"
+                    type="button"
+                    onClick={expandServicesBox}
+                >
+                    {t(['consentNotice', 'learnMore'])}
+                </button>
+            );
+        }
+
         let acceptAllButton;
-        const acceptButton = (
-            <button
-                disabled={confirming}
-                className="cm-btn cm-btn-success cm-btn-info cm-btn-accept"
-                type="button"
-                onClick={saveAndHide}
-            >
-                {t([manager.confirmed ? 'save' : 'acceptSelected'])}
-            </button>
-        );
-        if (config.acceptAll && !manager.confirmed) {
+        if (config.acceptAll) {
             acceptAllButton = (
                 <button
                     disabled={confirming}
@@ -110,6 +134,12 @@ export default class ConsentModal extends React.Component {
             );
         else servicesOrPurposes = <Services t={t} config={config} manager={manager} lang={lang} />;
 
+        let cmBody;
+        if (config.mustConsent && servicesBoxExpanded) 
+            cmBody = (
+                <div className="cm-body">{servicesOrPurposes}</div>
+            );
+
         const innerModal = (
             <div className="cm-modal cm-klaro">
                 <div className="cm-header">
@@ -139,10 +169,11 @@ export default class ConsentModal extends React.Component {
                         />
                     </p>
                 </div>
-                <div className="cm-body">{servicesOrPurposes}</div>
+                {cmBody}
                 <div className="cm-footer">
                     <div className="cm-footer-buttons">
                         {declineButton}
+                        {expandServicesBoxButton}
                         {acceptButton}
                         {acceptAllButton}
                     </div>
