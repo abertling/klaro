@@ -17,6 +17,7 @@ export default class ServiceItem extends React.Component {
             translations,
             title,
             description,
+            cookieTable,
             t,
         } = this.props;
         const required = this.props.required || false;
@@ -58,6 +59,20 @@ export default class ServiceItem extends React.Component {
                     {purposesText}
                 </p>
             );
+
+        let cookieTableRows;
+        if(cookieTable && cookieTable.length > 0){
+            cookieTableRows = cookieTable.map((row) => {
+                return (
+                    <tr className="cm-table-row">
+                        <td>{row.name}</td>
+                        <td>{row.server}</td>
+                        <td>{row.purpose}</td>
+                        <td>{row.duration}</td>
+                    </tr>
+                )
+            });
+        }
 
         const descriptionText = description || tt(translations, lang, 'zz', ['!', 'description']) || t(['!', name, 'description?'])
 
@@ -102,8 +117,20 @@ export default class ServiceItem extends React.Component {
                             />
                         </p>
                     }
-                    {purposesContent}
                 </div>
+                {(cookieTable && cookieTable.length &&
+                    <div className="cm-service-table">
+                        <table>
+                            <tr className="cm-table-head">
+                                <th>Name</th>
+                                <th>Server</th>
+                                <th>Zweck</th>
+                                <th>Speicherdauer</th>
+                            </tr>
+                            {cookieTableRows}
+                        </table>
+                    </div>
+                )}
             </div>
         );
     }

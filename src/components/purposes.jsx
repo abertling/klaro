@@ -22,7 +22,7 @@ export default class Purposes extends React.Component {
     render() {
         const { config, t, manager, lang } = this.props;
         const { consents } = this.state;
-        const { services } = config;
+        const { acceptAllSwitch, services } = config;
 
         const purposes = {};
 
@@ -103,7 +103,7 @@ export default class Purposes extends React.Component {
         return (
             <ul className="cm-purposes">
                 {purposeItems}
-                {togglablePurposes.length > 1 && (
+                {togglablePurposes.length > 1 && acceptAllSwitch == true && (
                     <li className="cm-purpose cm-toggle-all">
                         <PurposeItem
                             name="disableAll"

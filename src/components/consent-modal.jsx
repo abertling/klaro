@@ -62,8 +62,11 @@ export default class ConsentModal extends React.Component {
         const expandServicesBox = () => {
             this.setState({servicesBoxExpanded: true});
         }
+        const collapseServicesBox = () => {
+            this.setState({servicesBoxExpanded: false});
+        }
         
-        let expandServicesBoxButton, acceptButton;
+        let expandServicesBoxButton, collapseServicesBoxButton, acceptButton;
         if(servicesBoxExpanded) {
             acceptButton = (
                 <button
@@ -74,6 +77,16 @@ export default class ConsentModal extends React.Component {
                 >
                     {t([manager.confirmed ? 'save' : 'acceptSelected'])}
                 </button>
+            );
+            collapseServicesBoxButton = (
+                <a
+                    disabled={confirming}
+                    className="cm-footer-cancel"
+                    onClick={collapseServicesBox}
+                    href="#"
+                >
+                    {t(['cancel'])}
+                </a>
             );
         } else {
             expandServicesBoxButton = (
@@ -119,12 +132,27 @@ export default class ConsentModal extends React.Component {
         }
 
         let ppLink;
-        if (ppUrl !== undefined)
+        /*if (ppUrl !== undefined)
             ppLink = (
                 <a key="ppLink" href={ppUrl} target="_blank" rel="noopener">
                     {t(['privacyPolicy', 'name'])}
                 </a>
+            );*/
+
+        let privacyImprintLinks,
+            imprintUrl = t(['!', 'imprintUrl']);
+        if(ppUrl && imprintUrl){
+            privacyImprintLinks = (
+                <div className="cm-footer-links">
+                    <a href={ppUrl} title={t(["consentNotice", "privacyLinkText"])}>
+                        {t(["consentNotice", "privacyLinkText"])}
+                    </a>
+                    <a href={imprintUrl} title={t(["consentNotice", "imprintLinkText"])}>
+                        {t(["consentNotice", "imprintLinkText"])}
+                    </a>
+                </div>
             );
+        }
 
         let servicesOrPurposes;
 
@@ -177,6 +205,8 @@ export default class ConsentModal extends React.Component {
                         {acceptButton}
                         {acceptAllButton}
                     </div>
+                    {collapseServicesBoxButton}
+                    {privacyImprintLinks}
                     {
                         !config.disablePoweredBy &&
                         <p className="cm-powered-by">

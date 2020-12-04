@@ -47,6 +47,13 @@ export default class PurposeItem extends React.Component {
         ) : (
             ''
         );
+        const shortDescText = (
+            <span
+                className="cm-short-description"
+            >
+                {t(['!', 'purposes', name, 'shortDescription?'])}
+            </span>
+        );
 
         let purposesContent;
         if (purposes.length > 0)
@@ -81,21 +88,16 @@ export default class PurposeItem extends React.Component {
 
         return (
             <React.Fragment>
-                {services.length > 0 && (
-                    <div class="cm-purpose-inner">
+                
+                    <div className="cm-purpose-inner">
                         <div className="cm-caret">
                             <a href="#" onClick={toggleServicesVisible}>
-                                {(servicesVisible && <span>&#8593;</span>) || (
-                                    <span>&#8595;</span>
+                                {(servicesVisible && <span>-</span>) || (
+                                    <span>+</span>
                                 )}{' '}
-                                {services.length}{' '}
-                                {t([
-                                    'purposeItem',
-                                    services.length > 1 ? 'services' : 'service',
-                                ])}
                             </a>
                         </div>
-                        <div>
+                        <div className="cm-purpose-title">
                             <input
                                 id={id}
                                 className={
@@ -124,6 +126,7 @@ export default class PurposeItem extends React.Component {
                                     {title || t(['!', 'purposes', name, 'title?']) || asTitle(name)}
                                 </span>
                                 {requiredText}
+                                {shortDescText}
                                 <span className="cm-switch">
                                     <div className="slider round active"></div>
                                 </span>
@@ -140,20 +143,21 @@ export default class PurposeItem extends React.Component {
                             }
                                 {purposesContent}
                             </div>     
-                        </div>                                  
-                        
-                        <div className="cm-services">
-                            
-                            <ul
-                                className={
-                                    'cm-content' + (servicesVisible ? ' expanded' : '')
-                                }
-                            >
-                                {serviceItems}
-                            </ul>
-                        </div>
+                        </div> 
                     </div>
-                )}
+                    {services.length > 0 && (
+                    <div className="cm-services">
+                        
+                        <ul
+                            className={
+                                'cm-content' + (servicesVisible ? ' expanded' : '')
+                            }
+                        >
+                            {serviceItems}
+                        </ul>
+                    </div>
+                    )}
+               
                 
                 
             </React.Fragment>
