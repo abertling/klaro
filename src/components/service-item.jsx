@@ -78,52 +78,56 @@ export default class ServiceItem extends React.Component {
 
         return (
             <div>
-                <input
-                    id={id}
-                    className={
-                        'cm-list-input' +
-                        (required ? ' required' : '') +
-                        (onlyRequiredEnabled
-                            ? ' half-checked only-required'
-                            : '')
-                    }
-                    aria-describedby={`${id}-description`}
-                    disabled={required}
-                    checked={checked || required}
-                    type="checkbox"
-                    onChange={onChange}
-                />
-                <label
-                    htmlFor={id}
-                    className="cm-list-label"
-                    {...(required ? { tabIndex: '0' } : {})}
-                >
-                    <span className="cm-list-title">
-                        {title || tt(translations, lang, 'zz', ['!', 'title']) || t(['!', name, 'title?']) || asTitle(name)}
-                    </span>
-                    {requiredText}
-                    {optOutText}
-                    <span className="cm-switch">
-                        <div className="slider round active"></div>
-                    </span>
-                </label>
-                <div id={`${id}-description`}>
-                    {
-                        descriptionText &&
-                        <p className="cm-list-description">
-                            <Text
-                                config={config}
-                                text={descriptionText}
-                            />
-                        </p>
-                    }
-                </div>
+                {(!required && 
+                    <React.Fragment>
+                        <input
+                            id={id}
+                            className={
+                                'cm-list-input' +
+                                (required ? ' required' : '') +
+                                (onlyRequiredEnabled
+                                    ? ' half-checked only-required'
+                                    : '')
+                            }
+                            aria-describedby={`${id}-description`}
+                            disabled={required}
+                            checked={checked || required}
+                            type="checkbox"
+                            onChange={onChange}
+                        />
+                        <label
+                            htmlFor={id}
+                            className="cm-list-label"
+                            {...(required ? { tabIndex: '0' } : {})}
+                        >
+                            <span className="cm-list-title">
+                                {title || tt(translations, lang, 'zz', ['!', 'title']) || t(['!', name, 'title?']) || asTitle(name)}
+                            </span>
+                            {requiredText}
+                            {optOutText}
+                            <span className="cm-switch">
+                                <div className="slider round active"></div>
+                            </span>
+                        </label>
+                        <div id={`${id}-description`}>
+                            {
+                                descriptionText &&
+                                <p className="cm-list-description">
+                                    <Text
+                                        config={config}
+                                        text={descriptionText}
+                                    />
+                                </p>
+                            }
+                        </div>
+                    </React.Fragment>
+                )}
                 {(cookieTable && cookieTable.length &&
                     <div className="cm-service-table">
                         <table>
                             <tr className="cm-table-head">
                                 <th>Name</th>
-                                <th>Server</th>
+                                <th>Anbieter</th>
                                 <th>Zweck</th>
                                 <th>Speicherdauer</th>
                             </tr>

@@ -109,6 +109,7 @@ export default class ConsentManager {
         const changed = (this.consents[name] || false) !== value
         this.consents[name] = value
         this.notify('consents', this.consents)
+        this.notify('consent', {name: name, value:value});
         return changed
     }
 

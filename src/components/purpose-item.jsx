@@ -130,21 +130,23 @@ export default class PurposeItem extends React.Component {
                                 <span className="cm-switch">
                                     <div className="slider round active"></div>
                                 </span>
-                            </label>
-                            <div id={`${id}-description`}>
-                            {
-                                descriptionText &&
-                                <p className="cm-list-description">
-                                    <Text
-                                        config={config}
-                                        text={descriptionText}
-                                    />
-                                </p>
-                            }
-                                {purposesContent}
-                            </div>     
+                            </label>    
                         </div> 
                     </div>
+                    {servicesVisible && (
+                        <div id={`${id}-description`} class="cm-purpose-description">
+                        {
+                            descriptionText &&
+                            <p className="cm-list-description">
+                                <Text
+                                    config={config}
+                                    text={descriptionText}
+                                />
+                            </p>
+                        }
+                            {purposesContent}
+                        </div> 
+                    )}
                     {services.length > 0 && (
                     <div className="cm-services">
                         

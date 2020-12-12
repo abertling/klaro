@@ -79,14 +79,13 @@ export default class ConsentModal extends React.Component {
                 </button>
             );
             collapseServicesBoxButton = (
-                <a
+                <button
                     disabled={confirming}
                     className="cm-footer-cancel"
                     onClick={collapseServicesBox}
-                    href="#"
                 >
                     {t(['cancel'])}
-                </a>
+                </button>
             );
         } else {
             expandServicesBoxButton = (
