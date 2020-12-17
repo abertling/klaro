@@ -50,6 +50,22 @@ export default class ConsentNotice extends React.Component {
         } else {
             this.props.hide();
         }
+        this.statisticRequest(eventType);
+    };
+
+    statisticRequest = (eventType) => {
+        const url = window.cookieCounterUrl;
+        if(!url) throw "cookieCounterUrl not found. Tracking of Consent not possible."
+        let action = "";
+        if (eventType == "save") action = "acceptSelected";
+        if (eventType == "accept") action = "acceptall";
+        if (action != "") {
+            fetch(url, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: action }),
+            });
+        }
     };
 
     saveAndHide = () => {
