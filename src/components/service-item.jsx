@@ -40,7 +40,8 @@ export default class ServiceItem extends React.Component {
         ) : (
             ''
         );
-        const requiredText = required ? (
+        // requiredText nicht mehr gewünscht
+        const requiredText = false && required ? (
             <span
                 className="cm-required"
                 title={t(['service', 'required', 'description'])}

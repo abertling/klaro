@@ -37,7 +37,8 @@ export default class PurposeItem extends React.Component {
         const purposesText = purposes
             .map((purpose) => t(['!', 'purposes', purpose, 'title?']) || asTitle(purpose))
             .join(', ');
-        const requiredText = required ? (
+        // requiredText nicht mehr gewünscht
+        const requiredText = false && required ? (
             <span
                 className="cm-required"
                 title={t(['!', 'service', 'required', 'description']) || ''}
