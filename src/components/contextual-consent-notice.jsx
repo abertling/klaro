@@ -30,7 +30,12 @@ const ContextualConsentNotice = ({manager, config, t, lang, service}) => {
         }
     })
 
-    const title = tt(service.translations || {}, lang, 'zz', ['!', 'title']) || t(['!', service.name, 'title?']) || asTitle(service.name)
+    const title = tt(service.translations || {}, lang, 'zz', ['!', 'title']) || t(['!', service.name, 'title?']) || asTitle(service.name);
+    const policyLink = service.policyUrl && (
+        <a href={service.policyUrl} target="_blank">
+            {t(['contextualConsent','policy'])}
+        </a>
+    );
 
     return <div
                 lang={lang}
@@ -41,7 +46,7 @@ const ContextualConsentNotice = ({manager, config, t, lang, service}) => {
             >
             <div className="context-notice">
             <p>
-                {t(['contextualConsent','description'], {title: title})}
+                {t(['contextualConsent','description'], {title: title, policyLink: policyLink})}
             </p>
             <p className="cm-buttons">
                 <button
