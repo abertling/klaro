@@ -3,6 +3,7 @@ import { Close } from './icons';
 import Services from './services';
 import Purposes from './purposes';
 import Text from './text';
+import { Collapse } from 'react-collapse';
 
 export default class ConsentModal extends React.Component {
     constructor(props) {
@@ -161,12 +162,6 @@ export default class ConsentModal extends React.Component {
             );
         else servicesOrPurposes = <Services t={t} config={config} manager={manager} lang={lang} />;
 
-        let cmBody;
-        if (config.mustConsent && servicesBoxExpanded) 
-            cmBody = (
-                <div className="cm-body">{servicesOrPurposes}</div>
-            );
-
         const innerModal = (
             <div className="cm-modal cm-klaro">
                 <div className="cm-header">
@@ -196,7 +191,11 @@ export default class ConsentModal extends React.Component {
                         />
                     </p>
                 </div>
-                {cmBody}
+                { config.mustConsent && (
+                    <Collapse isOpened={servicesBoxExpanded}>
+                        <div className="cm-body">{servicesOrPurposes}</div>
+                    </Collapse>
+                )}
                 <div className="cm-footer">
                     <div className="cm-footer-buttons">
                         {declineButton}

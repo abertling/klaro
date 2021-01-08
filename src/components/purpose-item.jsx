@@ -2,6 +2,7 @@ import React from 'react';
 import { ServiceItems } from './services';
 import { asTitle } from '../utils/strings';
 import Text from './text';
+import { Collapse } from 'react-collapse';
 
 export default class PurposeItem extends React.Component {
     constructor(props) {
@@ -134,35 +135,36 @@ export default class PurposeItem extends React.Component {
                             </label>    
                         </div> 
                     </div>
-                    {servicesVisible && (
-                        <div id={`${id}-description`} class="cm-purpose-description">
-                        {
-                            descriptionText &&
-                            <p className="cm-list-description">
-                                <Text
-                                    config={config}
-                                    text={descriptionText}
-                                />
-                            </p>
-                        }
-                            {purposesContent}
-                        </div> 
-                    )}
-                    {services.length > 0 && (
-                    <div className="cm-services">
-                        
-                        <ul
-                            className={
-                                'cm-content' + (servicesVisible ? ' expanded' : '')
+                    <Collapse isOpened={servicesVisible}>
+                        <div>
+                            <div id={`${id}-description`} class="cm-purpose-description">
+                            {
+                                descriptionText &&
+                                <p className="cm-list-description">
+                                    <Text
+                                        config={config}
+                                        text={descriptionText}
+                                    />
+                                </p>
                             }
-                        >
-                            {serviceItems}
-                        </ul>
-                    </div>
-                    )}
+                                {purposesContent}
+                            </div> 
+                            {services.length > 0 && (
+                            <div className="cm-services">
+                                
+                                <ul
+                                    className={
+                                        'cm-content expanded'
+                                    }
+                                >
+                                    {serviceItems}
+                                </ul>
+                            </div>
+                            )}
+                        </div>
+                        
+                    </Collapse>               
                
-                
-                
             </React.Fragment>
         );
     }
