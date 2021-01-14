@@ -7,9 +7,19 @@ import { Collapse } from 'react-collapse';
 export default class PurposeItem extends React.Component {
     constructor(props) {
         super(props);
+        props.manager.watch(this);
         this.state = {
             servicesVisible: false,
         };
+    }
+
+    componentWillUnmount() {
+        this.props.manager.unwatch(this);
+    }
+
+    update(obj, type, data) {
+        if (obj === this.props.manager && type === 'collapse')
+            this.setState({ servicesVisible: false });
     }
 
     render() {
@@ -71,6 +81,7 @@ export default class PurposeItem extends React.Component {
 
         const toggleServicesVisible = (e) => {
             e.preventDefault();
+            this.props.manager.notify("collapse")
             this.setState({ servicesVisible: !servicesVisible });
         };
 
