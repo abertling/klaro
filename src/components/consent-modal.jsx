@@ -65,6 +65,7 @@ export default class ConsentModal extends React.Component {
         }
         const collapseServicesBox = () => {
             this.setState({servicesBoxExpanded: false});
+            this.props.manager.notify("collapse");
         }
         
         let expandServicesBoxButton, collapseServicesBoxButton, acceptButton;
