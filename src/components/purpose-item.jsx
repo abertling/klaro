@@ -165,7 +165,8 @@ export default class PurposeItem extends React.Component {
                                 
                                 <ul
                                     className={
-                                        'cm-content expanded'
+                                        'cm-content ' +
+                                        (servicesVisible ? ' expanded' : '')
                                     }
                                 >
                                     {serviceItems}

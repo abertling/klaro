@@ -62,7 +62,6 @@ export default class ServiceItem extends React.Component {
 
         let cookieTableRows;
         let cookieTable = translations && translations[lang] && translations[lang].cookieTable;
-        console.log(cookieTable);
         if(cookieTable && cookieTable.length > 0){
             cookieTableRows = cookieTable.map((row) => {
                 return (

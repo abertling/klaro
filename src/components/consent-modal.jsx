@@ -194,7 +194,9 @@ export default class ConsentModal extends React.Component {
                 </div>
                 { config.mustConsent && (
                     <Collapse isOpened={servicesBoxExpanded}>
-                        <div className="cm-body">{servicesOrPurposes}</div>
+                        <div className={"cm-body" + (servicesBoxExpanded ? ' expanded' : '')}>
+                            {servicesOrPurposes}
+                        </div>
                     </Collapse>
                 )}
                 <div className="cm-footer">
