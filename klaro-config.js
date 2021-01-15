@@ -17,7 +17,8 @@ var klaroConfig = {
     // when the page is being loaded.
     noAutoLoad: location.pathname.toLowerCase().indexOf("/datenschutz") > 0 
              || location.pathname.toLowerCase().indexOf("/impressum") > 0
-             || location.pathname.toLowerCase().indexOf("/en/") >= 0,
+             || location.pathname.toLowerCase().indexOf("/privacy") > 0
+             || location.pathname.toLowerCase().indexOf("/legal-notices") > 0,
 
     // Setting this to true will render the descriptions of the consent
     // modal and consent notice are HTML. Use with care.
@@ -89,7 +90,7 @@ var klaroConfig = {
     // use the value given in the global "lang" variable. If that does
     // not exist, it will use the value given in the "lang" attribute of your
     // HTML tag. If that also doesn't exist, it will use 'en'.
-    lang: 'de',
+    lang: navigator.language.substring(0,2).toLowerCase() == "de" ? "de" : "en",
 
     // You can overwrite existing translations and add translations for your
     // service descriptions and purposes. See `src/translations/` for a full
@@ -101,6 +102,51 @@ var klaroConfig = {
     translations: {
         // If you erase the "consentModal" translations, Klaro will use the
         // bundled translations.
+        en: {
+            confirm: "AGREE AND PROCEED",
+            save: "SAVE",
+            cancel: "Cancel",
+            acceptAll: "ACCEPT ALL",
+            acceptSelected: "SAVE PREFERENCES",
+            privacyPolicyUrl: '/EN/CONET/Privacy',
+            imprintUrl: "/EN/CONET/Legal-Notices",
+            consentModal: {
+                title: "Please give us your consent!",
+                description: "In certain cases, we need your consent to the use of cookies and other technologies by us (CONET Technologies Holding GmbH) and our partners in order to save and access personal data on your device in order to provide personalized ads and content, ad and content statistics, and insights about target groups and product development. We also need your consent for the integration of external multimedia content. In some cases, we and our partners process your personal data on the basis of legitimate interest. Cookies and other technologies can also be used for these purposes. Click \"Agree and Proceed\" to accept cookies and go directly to the site or click on \"More Information\" to see detailed descriptions of the types of cookies and choose whether to accept certain cookies while on the site. Your consent is recorded for all CONET sites. <br><br>You can withdraw your consent or change your preferences at any time via the Consent Manager on our Privacy Policy page.",
+            },
+            consentNotice: {
+                learnMore: "MORE INFORMATION",
+                privacyLinkText: "Privacy Policy", 
+                imprintLinkText: "Legal Notices"
+            },
+            purposes: {
+                functional: {
+                    shortDescription: "",
+                    description: "Required cookies are necessary to enable core site functionality. They enable basic functions, such as the page navigation. Your consent is not required.",
+                    title: "Required Cookies"
+                },
+                analytics_marketing: {
+                    shortDescription: "",
+                    description: "Analysis cookies help us to better understand usage behavior on our website. This enables us to improve the quality of our website and its content and to continuously optimize our website. A reference to an individual person is not possible. When activating individual services in this section, the activation of the Google Tag Manager is mandatory.",
+                    title: "Analytics & Marketing"
+                },
+                external_media: {
+                    shortDescription: "",
+                    description: "We incorporate external content at various points on our website in order to offer you additional information and extended services. The display of additional information relates, for example, to the direct integration of videos and news feeds from external platforms; extended services, for example, concern the integration of Google Maps in order to provide you with a convenient route planner to our locations.",
+                    title: "External Media"
+                },
+            },
+            contextualConsent: {
+                description: "By loading the content, you accept {title}'s {policyLink}. Do you agree?",
+                policy: "privacy policy"
+            },
+            cookieTable: {
+                name: "Name",
+                provider: "Provider", 
+                purpose: "Purpose", 
+                storagePeriod: "Storage Period"
+            }
+        },
         de: {
             confirm: "ZUSTIMMEN",
             save: "SPEICHERN",
@@ -139,6 +185,12 @@ var klaroConfig = {
             contextualConsent: {
                 description: "Mit dem Laden des Inhalts akzeptieren Sie die {policyLink} von {title}. Sind Sie einverstanden?",
                 policy: "Datenschutzerklärung"
+            },
+            cookieTable: {
+                name: "Name",
+                provider: "Anbieter", 
+                purpose: "Zweck", 
+                storagePeriod: "Speicherdauer"
             }
         },
     },
@@ -149,35 +201,68 @@ var klaroConfig = {
         {
             name: 'conet-functional',
             title: 'CONET Funktionale Cookies',
-            cookieTable: [
-                {
-                    "name": "CONETConsentManagment",
-                    "server": "CONET Technologies Holding GmbH",
-                    "purpose" : "Speichert ihre Angaben in Bezug auf unseren Consent-Manager.",
-                    "duration" : "ca. 1 Jahr"
-                },
-                {
-                    "name": "CONETDownload2",
-                    "server": "CONET Technologies Holding GmbH",
-                    "purpose" : "Speichert, ob Sie Zugang zu den Downloads auf dieser Seite erhalten haben.",
-                    "duration" : "ca. 2 Jahre"
-                },
-                {
-                    "name": "CONETReferrer",
-                    "server": "CONET Technologies Holding GmbH",
-                    "purpose" : "Speichert die Seite, die Sie auf diesem Internetauftritt zuerst besucht haben.",
-                    "duration" : "ca. 2 Jahre"
-                },
-                {
-                    "name": "MyFonts Counter",
-                    "server": "MyFonts Inc.",
-                    "purpose" : "Korrekte Darstellung einiger Schriftarten, die auf dieser Seite verwendet werden.",
-                    "duration" : "Session"
-                },
-            ],
             cookies: ["CONETConsentManagement", "CONETDownload2", "CONETReferrer"], 
             purposes: ['functional'],
-            required: true
+            required: true,
+            translations: {
+                en: {
+                    cookieTable: [
+                        {
+                            "name": "CONETConsentManagment",
+                            "server": "CONET Technologies Holding GmbH",
+                            "purpose" : "Saves the data that you have provided in our Consent Manager.",
+                            "duration" : "approx. 1 year"
+                        },
+                        {
+                            "name": "CONETDownload2",
+                            "server": "CONET Technologies Holding GmbH",
+                            "purpose" : "Saves whether you have been given access to the downloads on this page.",
+                            "duration" : "approx. 2 years"
+                        },
+                        {
+                            "name": "CONETReferrer",
+                            "server": "CONET Technologies Holding GmbH",
+                            "purpose" : "Saves the page that you visited first on this website. ",
+                            "duration" : "approx. 2 years"
+                        },
+                        {
+                            "name": "MyFonts Counter",
+                            "server": "MyFonts Inc.",
+                            "purpose" : "Correct representation of some fonts used on this page.",
+                            "duration" : "Session"
+                        },
+                    ],
+                },
+
+                de: {
+                    cookieTable: [
+                        {
+                            "name": "CONETConsentManagment",
+                            "server": "CONET Technologies Holding GmbH",
+                            "purpose" : "Speichert ihre Angaben in Bezug auf unseren Consent-Manager.",
+                            "duration" : "ca. 1 Jahr"
+                        },
+                        {
+                            "name": "CONETDownload2",
+                            "server": "CONET Technologies Holding GmbH",
+                            "purpose" : "Speichert, ob Sie Zugang zu den Downloads auf dieser Seite erhalten haben.",
+                            "duration" : "ca. 2 Jahre"
+                        },
+                        {
+                            "name": "CONETReferrer",
+                            "server": "CONET Technologies Holding GmbH",
+                            "purpose" : "Speichert die Seite, die Sie auf diesem Internetauftritt zuerst besucht haben.",
+                            "duration" : "ca. 2 Jahre"
+                        },
+                        {
+                            "name": "MyFonts Counter",
+                            "server": "MyFonts Inc.",
+                            "purpose" : "Korrekte Darstellung einiger Schriftarten, die auf dieser Seite verwendet werden.",
+                            "duration" : "Session"
+                        },
+                    ],
+                },
+            },
         },
         {
             name: 'gtm',
@@ -189,32 +274,6 @@ var klaroConfig = {
             name: 'googleAnalytics',
             default: false,
             title: 'Google Analytics',
-            cookieTable: [
-                {
-                    "name": "_gid",
-                    "server": "Google Ireland Limited",
-                    "purpose" : "Ordnet einem User eine ID zu, damit der Webtracker die Aktionen des Nutzers unter diese ID zusammenfassen kann.",
-                    "duration" : "ca. 24 Stunden"
-                },
-                {
-                    "name": "_ga",
-                    "server": "Google Ireland Limited",
-                    "purpose" : "Ordnet einem User eine ID zu, damit der Webtracker die Aktionen des Nutzers unter diese ID zusammenfassen kann.",
-                    "duration" : "ca. 24 Monate"
-                },
-                {
-                    "name": "_gat_UA-481999-1",
-                    "server": "Google Ireland Limited",
-                    "purpose" : "Speichert darüber Daten, wann der Websitebesucher die Website aufgerufen hat, um daraus statistische Daten zusammenzustellen. Zudem werden aufgrund des Seitenbesuches weitere Daten zu Statistikzwecken gesammelt.",
-                    "duration" : "ca. 80 Sekunden"
-                },
-                {
-                    "name": "NID",
-                    "server": "Google Ireland Limited",
-                    "purpose" : "Ermöglicht die Auslieferung von Werbung und Retargeting. Speichert Einstellungen des Nutzers.",
-                    "duration" : "ca. 6 Monate"
-                }
-            ],
             purposes: ['analytics_marketing'],
             cookies: [
                 [/^_ga.*$/i, '/', '.conet.de'],
@@ -230,37 +289,69 @@ var klaroConfig = {
             },
             required: false,
             optOut: false,
+            translations: {
+                en: {
+                    cookieTable: [
+                        {
+                            "name": "_gid",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Assigns an ID to a user so that the web tracker can summarize the user's actions under this ID.",
+                            "duration" : "approx. 24 hours"
+                        },
+                        {
+                            "name": "_ga",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Assigns an ID to a user so that the web tracker can summarize the user's actions under this ID.",
+                            "duration" : "approx. 24 months"
+                        },
+                        {
+                            "name": "_gat_UA-481999-1",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Stores data about when the website visitor called up the website in order to compile statistical data. In addition, further data is collected for statistical purposes based on the page visit.",
+                            "duration" : "approx. 80 seconds"
+                        },
+                        {
+                            "name": "NID",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Enables advertising and retargeting. Saves the user's settings.",
+                            "duration" : "approx. 6 months"
+                        }
+                    ],
+                },
+                de: {
+                    cookieTable: [
+                        {
+                            "name": "_gid",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Ordnet einem User eine ID zu, damit der Webtracker die Aktionen des Nutzers unter diese ID zusammenfassen kann.",
+                            "duration" : "ca. 24 Stunden"
+                        },
+                        {
+                            "name": "_ga",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Ordnet einem User eine ID zu, damit der Webtracker die Aktionen des Nutzers unter diese ID zusammenfassen kann.",
+                            "duration" : "ca. 24 Monate"
+                        },
+                        {
+                            "name": "_gat_UA-481999-1",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Speichert darüber Daten, wann der Websitebesucher die Website aufgerufen hat, um daraus statistische Daten zusammenzustellen. Zudem werden aufgrund des Seitenbesuches weitere Daten zu Statistikzwecken gesammelt.",
+                            "duration" : "ca. 80 Sekunden"
+                        },
+                        {
+                            "name": "NID",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Ermöglicht die Auslieferung von Werbung und Retargeting. Speichert Einstellungen des Nutzers.",
+                            "duration" : "ca. 6 Monate"
+                        }
+                    ],
+                }
+            }
         },
         {
             name: 'hotjar',
             default: false,
             title: 'Hotjar',
-            cookieTable: [
-                {
-                    "name": "_hjTLDTest",
-                    "server": "Hotjar Ltd.",
-                    "purpose" : "Speichert, ob Hotjar bereits geladen wurde.",
-                    "duration" : "Sitzung"
-                },
-                {
-                    "name": "_hjid",
-                    "server": "Hotjar Ltd.",
-                    "purpose" : "Speichert den ersten Besuch auf der Seite und stellt sicher, dass zukünftige Besuche der gleichen User ID zugeordnet werden.",
-                    "duration" : "Sitzung"
-                },
-                {
-                    "name": "_hjIncludedInPageviewSample",
-                    "server": "Hotjar Ltd.",
-                    "purpose" : "Ermittelt, ob der Besucher in einer bestimmten Werbezielgruppe enthalten ist.",
-                    "duration" : "Sitzung"
-                },
-                {
-                    "name": "_hjAbsoluteSessionInProgress",
-                    "server": "Hotjar Ltd.",
-                    "purpose" : "Speichert darüber Daten, wann der Websitebesucher die Website aufgerufen hat, um daraus statistische Daten zusammenzustellen. Zudem werden aufgrund des Seitenbesuches weitere Daten zu Statistikzwecken gesammelt.",
-                    "duration" : "ca. 30 Minuten"
-                },
-            ],
             purposes: ['analytics_marketing'],
             cookies: [
                 [/^_hj.*$/i, '/', '.conet.de'],
@@ -273,25 +364,69 @@ var klaroConfig = {
             },
             required: false,
             optOut: false,
+            translations: {
+                en: {
+                    cookieTable: [
+                        {
+                            "name": "_hjTLDTest",
+                            "server": "Hotjar Ltd.",
+                            "purpose" : "Saves whether Hotjar has already been loaded.",
+                            "duration" : "Session"
+                        },
+                        {
+                            "name": "_hjid",
+                            "server": "Hotjar Ltd.",
+                            "purpose" : "Saves the first visit to the page and ensures that future visits are assigned to the same user ID.",
+                            "duration" : "Session"
+                        },
+                        {
+                            "name": "_hjIncludedInPageviewSample",
+                            "server": "Hotjar Ltd.",
+                            "purpose" : "Determines whether the visitor is included in a specific advertising target group.",
+                            "duration" : "Session"
+                        },
+                        {
+                            "name": "_hjAbsoluteSessionInProgress",
+                            "server": "Hotjar Ltd.",
+                            "purpose" : "Stores data about when the website visitor called up the website in order to compile statistical data. In addition, further data is collected for statistical purposes based on the page visit.",
+                            "duration" : "approx. 30 minutes"
+                        },
+                    ],
+                },
+                de: {
+                    cookieTable: [
+                        {
+                            "name": "_hjTLDTest",
+                            "server": "Hotjar Ltd.",
+                            "purpose" : "Speichert, ob Hotjar bereits geladen wurde.",
+                            "duration" : "Sitzung"
+                        },
+                        {
+                            "name": "_hjid",
+                            "server": "Hotjar Ltd.",
+                            "purpose" : "Speichert den ersten Besuch auf der Seite und stellt sicher, dass zukünftige Besuche der gleichen User ID zugeordnet werden.",
+                            "duration" : "Sitzung"
+                        },
+                        {
+                            "name": "_hjIncludedInPageviewSample",
+                            "server": "Hotjar Ltd.",
+                            "purpose" : "Ermittelt, ob der Besucher in einer bestimmten Werbezielgruppe enthalten ist.",
+                            "duration" : "Sitzung"
+                        },
+                        {
+                            "name": "_hjAbsoluteSessionInProgress",
+                            "server": "Hotjar Ltd.",
+                            "purpose" : "Speichert darüber Daten, wann der Websitebesucher die Website aufgerufen hat, um daraus statistische Daten zusammenzustellen. Zudem werden aufgrund des Seitenbesuches weitere Daten zu Statistikzwecken gesammelt.",
+                            "duration" : "ca. 30 Minuten"
+                        },
+                    ],
+                }
+            },
         },
         {
             name: 'facebook-script',
             default: false,
             title: 'Facebook',
-            cookieTable: [
-                {
-                    "name": "_fbp",
-                    "server": "Facebook Ireland Ltd.",
-                    "purpose" : "Speichert und verfolgt Besuche über mehrere Webseiten hinweg.",
-                    "duration" : "ca. 3 Monate"
-                },
-                {
-                    "name": "fr",
-                    "server": "Facebook Ireland Ltd.",
-                    "purpose" : "Ermöglicht die Auslieferung von Werbung und Retargeting.",
-                    "duration" : "ca. 3 Monate"
-                },
-            ],
             purposes: ['analytics_marketing'],
             cookies: [
                 [/^_fb.*$/i, '/', '.conet.de'],
@@ -306,43 +441,45 @@ var klaroConfig = {
             },
             required: false,
             optOut: false,
+            translations: {
+                en: {
+                    cookieTable: [
+                        {
+                            "name": "_fbp",
+                            "server": "Facebook Ireland Ltd.",
+                            "purpose" : "Stores and tracks visits across multiple websites.",
+                            "duration" : "approx. 3 months"
+                        },
+                        {
+                            "name": "fr",
+                            "server": "Facebook Ireland Ltd.",
+                            "purpose" : "Enables advertising and retargeting.",
+                            "duration" : "approx. 3 months"
+                        },
+                    ],
+                },
+                de: {
+                    cookieTable: [
+                        {
+                            "name": "_fbp",
+                            "server": "Facebook Ireland Ltd.",
+                            "purpose" : "Speichert und verfolgt Besuche über mehrere Webseiten hinweg.",
+                            "duration" : "ca. 3 Monate"
+                        },
+                        {
+                            "name": "fr",
+                            "server": "Facebook Ireland Ltd.",
+                            "purpose" : "Ermöglicht die Auslieferung von Werbung und Retargeting.",
+                            "duration" : "ca. 3 Monate"
+                        },
+                    ],
+                }
+            },
         },
         {
             name: 'linkedin',
             default: false,
             title: 'LinkedIn',
-            cookieTable: [
-                {
-                    "name": "bcookie, bscookie",
-                    "server": "LinkedIn Ireland Unlimited",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 24 Monate"
-                },
-                {
-                    "name": "lidc",
-                    "server": "LinkedIn Ireland Unlimited",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 24 Stunden"
-                },
-                {
-                    "name": "lissc",
-                    "server": "LinkedIn Ireland Unlimited",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 12 Monate"
-                },
-                {
-                    "name": "UserMatchHistory",
-                    "server": "LinkedIn Ireland Unlimited",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 30 Tage"
-                },
-                {
-                    "name": "lang",
-                    "server": "LinkedIn Ireland Unlimited",
-                    "purpose" : "Durch dieses Cookie können wir einzelne von Ihnen gewählte Komforteinstellungen speichern und für ihren aktuellen und für zukünftige Seitenbesuche vorhalten.",
-                    "duration" : "Sitzung"
-                },
-            ],
             purposes: ['analytics_marketing'],
             cookies: [
                 [/^li.*$/i, '/', '.linkedin.com'],
@@ -357,31 +494,81 @@ var klaroConfig = {
             },
             required: false,
             optOut: false,
+            translations: {
+                en: {
+                    cookieTable: [
+                        {
+                            "name": "bcookie, bscookie",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "approx. 24 months"
+                        },
+                        {
+                            "name": "lidc",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "approx. 24 hours"
+                        },
+                        {
+                            "name": "lissc",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "approx. 12 months"
+                        },
+                        {
+                            "name": "UserMatchHistory",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "approx. 30 days"
+                        },
+                        {
+                            "name": "lang",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "With this cookie, we can save individual settings you have chosen and keep them available for your current and future visits to the website.",
+                            "duration" : "Session"
+                        },
+                    ],
+                },
+                de: {
+                    cookieTable: [
+                        {
+                            "name": "bcookie, bscookie",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 24 Monate"
+                        },
+                        {
+                            "name": "lidc",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 24 Stunden"
+                        },
+                        {
+                            "name": "lissc",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 12 Monate"
+                        },
+                        {
+                            "name": "UserMatchHistory",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 30 Tage"
+                        },
+                        {
+                            "name": "lang",
+                            "server": "LinkedIn Ireland Unlimited",
+                            "purpose" : "Durch dieses Cookie können wir einzelne von Ihnen gewählte Komforteinstellungen speichern und für ihren aktuellen und für zukünftige Seitenbesuche vorhalten.",
+                            "duration" : "Sitzung"
+                        },
+                    ],
+                }
+            },
         },
         {
             name: 'pardot',
             default: false,
             title: 'Pardot',
-            cookieTable: [
-                {
-                    "name": "visitor_id817383, visitor_id817383-hash",
-                    "server": "VP & AGC",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 10 Jahre"
-                },
-                {
-                    "name": "lpv817383",
-                    "server": "VP & AGC",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 30 Minuten"
-                },
-                {
-                    "name": "pardot",
-                    "server": "VP & AGC",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "Sitzung"
-                },
-            ],
             purposes: ['analytics_marketing'],
             cookies: [
                 [/^visitor_id.*$/i, "/", location.host],
@@ -395,33 +582,58 @@ var klaroConfig = {
             },
             required: false,
             optOut: false,
+            translations: {
+                en: {
+                    cookieTable: [
+                        {
+                            "name": "visitor_id817383, visitor_id817383-hash",
+                            "server": "VP & AGC",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "approx. 10 years"
+                        },
+                        {
+                            "name": "lpv817383",
+                            "server": "VP & AGC",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "approx. 30 minutes"
+                        },
+                        {
+                            "name": "pardot",
+                            "server": "VP & AGC",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "Session"
+                        },
+                    ],
+                },
+                de: {
+                    cookieTable: [
+                        {
+                            "name": "visitor_id817383, visitor_id817383-hash",
+                            "server": "VP & AGC",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 10 Jahre"
+                        },
+                        {
+                            "name": "lpv817383",
+                            "server": "VP & AGC",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 30 Minuten"
+                        },
+                        {
+                            "name": "pardot",
+                            "server": "VP & AGC",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "Sitzung"
+                        },
+                    ],
+                }
+            },
         },
         {
             name: 'bing_ads',
             default: false,
             title: 'Bing Ads',
             purposes: ['analytics_marketing'],
-            cookieTable: [
-                // Cookie ergänzen - VPN abstellen 
-                {
-                    "name": "MUID",
-                    "server": "Microsoft Corporation",
-                    "purpose" : "Ermöglicht das Tracking der Seitenbesucher auf anderen, von Microsoft angebotenen Websites durch Synchronisieren der ID.",
-                    "duration" : "ca. 12 Monate"
-                },
-                {
-                    "name": "_uetvid",
-                    "server": "Microsoft Corporation",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 2 Wochen"
-                },
-                {
-                    "name": "_uetsid",
-                    "server": "Microsoft Corporation",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 24 Stunden"
-                },
-            ],
             callback: function(consent, app) {
                 if(consent !== false) {
                     pushGTMEvent("consent-conversion-tracking");
@@ -434,6 +646,54 @@ var klaroConfig = {
             ],
             required: false,
             optOut: false,
+            translations: {
+                en: {
+                    cookieTable: [
+                        // Cookie ergänzen - VPN abstellen 
+                        {
+                            "name": "MUID",
+                            "server": "Microsoft Corporation",
+                            "purpose" : "Enables the tracking of visitors on other websites offered by Microsoft by synchronizing the ID.",
+                            "duration" : "approx. 12 months"
+                        },
+                        {
+                            "name": "_uetvid",
+                            "server": "Microsoft Corporation",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "approx. 2 weeks"
+                        },
+                        {
+                            "name": "_uetsid",
+                            "server": "Microsoft Corporation",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This is used to personalize the advertising that is displayed to the user.",
+                            "duration" : "approx. 24 hours"
+                        },
+                    ],
+                },
+                de: {
+                    cookieTable: [
+                        // Cookie ergänzen - VPN abstellen 
+                        {
+                            "name": "MUID",
+                            "server": "Microsoft Corporation",
+                            "purpose" : "Ermöglicht das Tracking der Seitenbesucher auf anderen, von Microsoft angebotenen Websites durch Synchronisieren der ID.",
+                            "duration" : "ca. 12 Monate"
+                        },
+                        {
+                            "name": "_uetvid",
+                            "server": "Microsoft Corporation",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 2 Wochen"
+                        },
+                        {
+                            "name": "_uetsid",
+                            "server": "Microsoft Corporation",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 24 Stunden"
+                        },
+                    ],
+                }
+            },
         },
         {
             purposes: ['external_media'],
@@ -450,20 +710,6 @@ var klaroConfig = {
             default: false,
             title: 'Facebook',
             policyUrl: "https://www.facebook.com/policies/cookies",
-            cookieTable: [
-                {
-                    "name": "datr",
-                    "server": "Facebook Ireland Ltd.",
-                    "purpose" : "Beugt Betrugsversuchen vor.",
-                    "duration" : "ca. 3 Monate"
-                },
-                {
-                    "name": "fr",
-                    "server": "Facebook Ireland Ltd.",
-                    "purpose" : "Ermöglicht die Auslieferung von Werbung und Retargeting.",
-                    "duration" : "ca. 3 Monate"
-                },
-            ],
             purposes: ['external_media'],
             cookies: [
                 ["fr", '/', '.facebook.com'],
@@ -471,37 +717,115 @@ var klaroConfig = {
             ],
             required: false,
             optOut: false,
+            translations: {
+                en: {
+                    cookieTable: [
+                        {
+                            "name": "datr",
+                            "server": "Facebook Ireland Ltd.",
+                            "purpose" : "Prevents fraud.",
+                            "duration" : "approx. 3 months"
+                        },
+                        {
+                            "name": "fr",
+                            "server": "Facebook Ireland Ltd.",
+                            "purpose" : "Enables advertising and retargeting.",
+                            "duration" : "approx. 3 months"
+                        },
+                    ],
+                },
+                de: {
+                    cookieTable: [
+                        {
+                            "name": "datr",
+                            "server": "Facebook Ireland Ltd.",
+                            "purpose" : "Beugt Betrugsversuchen vor.",
+                            "duration" : "ca. 3 Monate"
+                        },
+                        {
+                            "name": "fr",
+                            "server": "Facebook Ireland Ltd.",
+                            "purpose" : "Ermöglicht die Auslieferung von Werbung und Retargeting.",
+                            "duration" : "ca. 3 Monate"
+                        },
+                    ],
+                }
+            },
         },
         {
             purposes: ['external_media'],
             name: "youtube",
             policyUrl: "https://policies.google.com/privacy",
-            cookieTable: [
-                {
-                    "name": "remote_sid",
-                    "server": "Google Ireland Limited",
-                    "purpose" : "Wir betten Videos von unserem offiziellen YouTube-Kanal im privat genutzten Modus von YouTube ein. Dieser Modus kann Cookies auf Ihrem Computer setzen, sobald Sie auf den YouTube-Videoplayer klicken, jedoch speichert YouTube keine persönlich identifizierbaren Cookie-Informationen für die Wiedergabe von eingebetteten Videos im privat genutzten Modus.",
-                    "duration" : "Sitzung"
+            translations: {
+                en: {
+                    cookieTable: [
+                        {
+                            "name": "remote_sid",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "We embed videos from our official YouTube channel in YouTube's private mode. This mode can set cookies on your computer as soon as you click on the YouTube video player, however YouTube does not save any personally identifiable cookie information for the playback of embedded videos in private mode.",
+                            "duration" : "Session"
+                        },
+                        {
+                            "name": "VISITOR_INFO1_LIVE",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Used to estimate how the site visitors will accept the videos on the website.",
+                            "duration" : "approx. 6 months"
+                        },
+                        {
+                            "name": "GPS",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Assigns an ID to the website visitor. The cookie is then used to call up the current GPS information on mobile devices in order to obtain the user's location.",
+                            "duration" : "approx. 30 minutes"
+                        },
+                        {
+                            "name": "YSC",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Assigns an ID to the website visitor. This ID is used to generate statistics of the videos of the page visitor.",
+                            "duration" : "approx. 30 minutes"
+                        },
+                        {
+                            "name": "IDE",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Assigns an ID to the page visitor and determines statistical data on the website visits of the page visitor. This serves to individualize the advertising that is displayed to the user.",
+                            "duration" : "approx. 13 months"
+                        },
+                    ],
                 },
-                {
-                    "name": "VISITOR_INFO1_LIVE",
-                    "server": "Google Ireland Limited",
-                    "purpose" : "Abschätzen, wie die Akzeptanz der Videos auf der Website durch die Seitenbesucher sein wird.",
-                    "duration" : "ca. 6 Monate"
-                },
-                {
-                    "name": "YSC",
-                    "server": "Google Ireland Limited",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu. Das Cookie dient dann zum Abruf der aktuellen GPS-Informationen auf mobilen Endgeräten um den Standort des Nutzers zu erhalten.",
-                    "duration" : "ca. 30 Minuten"
-                },
-                {
-                    "name": "IDE",
-                    "server": "Google Ireland Limited",
-                    "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
-                    "duration" : "ca. 13 Monate"
-                },
-            ],
+                de: {
+                    cookieTable: [
+                        {
+                            "name": "remote_sid",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Wir betten Videos von unserem offiziellen YouTube-Kanal im privat genutzten Modus von YouTube ein. Dieser Modus kann Cookies auf Ihrem Computer setzen, sobald Sie auf den YouTube-Videoplayer klicken, jedoch speichert YouTube keine persönlich identifizierbaren Cookie-Informationen für die Wiedergabe von eingebetteten Videos im privat genutzten Modus.",
+                            "duration" : "Sitzung"
+                        },
+                        {
+                            "name": "VISITOR_INFO1_LIVE",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Abschätzen, wie die Akzeptanz der Videos auf der Website durch die Seitenbesucher sein wird.",
+                            "duration" : "ca. 6 Monate"
+                        },
+                        {
+                            "name": "GPS",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu. Das Cookie dient dann zum Abruf der aktuellen GPS-Informationen auf mobilen Endgeräten um den Standort des Nutzers zu erhalten.",
+                            "duration" : "ca. 30 Minuten"
+                        },
+                        {
+                            "name": "YSC",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Dieses Cookie weist dem Seitenbesucher eine ID zu. Diese ID dient dazu, Statistiken der Videos des Seitenbesuchers zu erstellen.",
+                            "duration" : "ca. 30 Minuten"
+                        },
+                        {
+                            "name": "IDE",
+                            "server": "Google Ireland Limited",
+                            "purpose" : "Weist dem Seitenbesucher eine ID zu und ermittelt statistische Daten zu den Website-Besuchen des Seitenbesuchers. Dies dient der Individualisierung der Werbung, die dem Nutzer angezeigt wird.",
+                            "duration" : "ca. 13 Monate"
+                        },
+                    ],
+                }
+            },
         },
     ],
 };
