@@ -32,7 +32,9 @@ export function getElement(config, ide){
     if (element === null){
         element = document.createElement('div')
         element.id = id
-        document.body.appendChild(element)
+        //document.body.appendChild(element)
+        document.body.insertBefore(element, document.body.childNodes[0]); // accessability
+        
     }
     return element
 }
